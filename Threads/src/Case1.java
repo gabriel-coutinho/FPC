@@ -1,7 +1,7 @@
 import java.util.Random;
 
 public class Case1 {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		Data data = new Data();
 		Fornecedor f1 = new Fornecedor(data);
 		Consumidor c1 = new Consumidor(data);
@@ -11,6 +11,9 @@ public class Case1 {
 		
 		t1.start();
 		t2.start();
+		
+		t1.join();
+		t2.join();
 	}
 
 	static class Data {
@@ -59,18 +62,18 @@ public class Case1 {
 
 	static class Fornecedor implements Runnable {
 		private Data data;
+		private Random rand;
 		public Fornecedor(Data data) {
 			this.data = data;
+			rand = new Random();
 		}
-		Random rand = new Random();
 
 		@Override
 		public void run() {
-			int i = 0;
 			while (true) {
 				try {
-					data.setXpto(i++);
-					Thread.sleep(1000);
+					data.setXpto(rand.nextInt(11));
+					Thread.sleep(101);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
